@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Item } from '../../../interfaces/Item.interface';
 import { ItemFormProps } from './ItemForm.types';
-
+import { Input } from '../../atoms/Input';
+import { TextArea } from '../../atoms/TextArea';
+import { Button } from '../../atoms/Button';
 
 
 const ItemForm: React.FC<ItemFormProps> = ({ onSubmit }) => {
@@ -30,27 +32,26 @@ const ItemForm: React.FC<ItemFormProps> = ({ onSubmit }) => {
 
   return (
     <form className='home__form' onSubmit={handleSubmit(handleFormSubmit)}>
-      <input 
-        className={`home__input ${errors.title ? 'border-accent' : 'border-gray-300'}`} 
-        {...register('title')} 
-        placeholder="Title" 
+      <Input 
+        name="title"
+        placeholder="Title"
+        register={register}
+        errors={errors}
+        className="home__input"
       />
-      {errors.title && <p className="text-accent">{errors.title.message}</p>}
-
-      <textarea 
-        className={`home__textarea ${errors.body ? 'border-accent' : 'border-gray-300'}`} 
-        {...register('body')} 
-        placeholder="Body" 
+      
+      <TextArea 
+        name="body"
+        placeholder="Body"
+        register={register}
+        errors={errors}
+        className="home__textarea"
       />
-      {errors.body && <p className="text-accent">{errors.body.message}</p>} 
 
-      <button 
-        className={`home__button ${(!isValid && isSubmitted) || isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary'}`} 
-        type="submit" 
-        disabled={(!isValid && isSubmitted) || isSubmitting} 
-      >
-        {isSubmitting ? 'Submitting...' : 'Add Item'}
-      </button>
+      <Button
+        isSubmitting={isSubmitting} 
+        isDisabled={(!isValid && isSubmitted) || isSubmitting} 
+      />
     </form>
   );
 };
